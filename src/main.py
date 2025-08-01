@@ -4,7 +4,7 @@ def main():
     static_dir = "./static/"
     public_dir = "./public"
     source_copying(static_dir, public_dir)
-    generate_page("content/index.md", "template.html", "public/index.html")
+    generate_pages_recursive("content", "template.html", "public")
 
 
 def source_copying(source_dir,target_dir):
@@ -36,6 +36,18 @@ def generate_page(from_path, template_path, dest_path):
         os.makedirs(dir_name, exist_ok=True)
     with open(dest_path, "w") as f:
         f.write(template_data)
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for content in os.listdir(dir_path_content):
+        file_path = os.path.join(dir_path_content, content) 
+        if os.path.isfile(file_path) and file_path.endswith(".md"):
+            new_file_name = content.replace(".md",".html")
+            new_dest_dir_path = os.path.join(dest_dir_path, new_file_name)
+            generate_page(file_path, template_path, new_dest_dir_path)
+        elif os.path.isdir(file_path):
+            new_dest_dir_path = file_path.replace("content", "public")
+            generate_pages_recursive(file_path, template_path, new_dest_dir_path)
+
 
 
 
