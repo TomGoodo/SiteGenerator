@@ -52,7 +52,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
             new_dest_dir_path = os.path.join(dest_dir_path, new_file_name)
             generate_page(file_path, template_path, new_dest_dir_path, basepath)
         elif os.path.isdir(file_path):
-            new_dest_dir_path = file_path.replace("content", "public")
+            new_dest_dir_path = file_path.replace("content", "docs")
             generate_pages_recursive(file_path, template_path, new_dest_dir_path, basepath)
 
 
